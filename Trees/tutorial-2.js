@@ -63,8 +63,8 @@ function tree(array) {
     }
   }
 
-  console.log(getMaxOfTree(root));
-  // display(root);
+  // console.log(getMaxOfTree(root));
+  display(root);
   // const sizeOfTreeVal = sizeOfTree(root);
   // console.log(sizeOfTreeVal);
 }

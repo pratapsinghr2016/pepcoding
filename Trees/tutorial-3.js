@@ -120,8 +120,8 @@ function tree(array) {
       stack.push(tempNode);
     }
   }
-  levelOrderLineWise(root);
-  // breadthOrLevelTraversal(root);
+  // levelOrderLineWise(root);
+  breadthOrLevelTraversal(root);
   // traversal(root);
   // console.log(maxHeight(root));
   // display(root);

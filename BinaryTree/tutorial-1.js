@@ -118,6 +118,36 @@ function levelOrder(node) {
   }
 }
 
+function levelOrder2(node) {
+  if (!node) return [];
+
+  let queue = [];
+  let str = [];
+  let idx = 0;
+  queue.push(node);
+
+  while (queue.length) {
+    const n = queue.length;
+    let temp = [];
+    for (let index = 0; index < n; index++) {
+      // loop till n not till queue.length, coz of later queue.shift will change the length of queue
+      // WRONG:- for (let index = 0; index < queue.length; index++) {
+      const removedElement = queue.shift();
+      temp.push(removedElement.value);
+
+      if (removedElement.left) {
+        queue.push(removedElement.left);
+      }
+      if (removedElement.right) {
+        queue.push(removedElement.right);
+      }
+    }
+    str[idx] = temp;
+    idx++;
+  }
+  console.log(str);
+}
+
 function IterativePair(node, state) {
   this.node = node;
   this.state = state;
@@ -289,13 +319,13 @@ function binaryTree(arr) {
   // console.log("Sum: ", sum(root));
   // console.log("Max: ", max(root));
   // console.log("Height: ", height(root));
-  // levelOrder(root);
+  levelOrder2(root);
   // console.log(iterativeTraversal(root));
   // console.log("Find: ", findNode(root, 22));
   // nodeToRoot(root, 87);
   // console.log("Path: ", path);
   // console.log(binaryTreePaths(root));
-  atKLevelDown(root, 2);
+  // atKLevelDown(root, 2);
 }
 
 const arr = [

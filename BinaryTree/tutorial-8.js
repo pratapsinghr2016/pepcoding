@@ -43,12 +43,12 @@ function morrisInOrderTraversal(node) {
     } else {
       const rightMostNode = getRightMostNode(leftNode, curr);
       if (!rightMostNode.right) {
-        response.push(curr.value);
+        // response.push(curr.value);  PRE-ORDER
         rightMostNode.right = curr;
         curr = curr.left;
       } else {
+        response.push(curr.value);
         rightMostNode.right = null;
-        // response.push(curr.value);
         curr = curr.right;
       }
     }

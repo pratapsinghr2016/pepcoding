@@ -63,6 +63,10 @@ function deSerializeFromPostOrder(dStr) {
   return res;
 }
 
+function verifyPreOrderSerialization(str) {
+  // code here
+}
+
 function binaryTree(arr) {
   let stack = [];
   const root = new Node(arr[0], null, null);

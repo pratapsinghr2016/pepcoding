@@ -1,3 +1,16 @@
+/**
+ * Tutorial-2:
+ * ================================================
+ * Find a node in BST
+ * Node to root path
+ * K-level down
+ * K-level far
+ * Root to leaf paths
+ * Normalize/flatten a tree
+ * Nodes with single child
+ *
+ */
+
 function Node(value, left, right) {
   this.value = value;
   this.left = left;
@@ -24,28 +37,128 @@ function display(node) {
   display(node.right);
 }
 
-function height(node) {}
+function findNode(node, target) {
+  if (!node) {
+    return false;
+  }
 
-function max(node) {}
+  if (node.value == target) {
+    return true;
+  }
 
-function sum(node) {}
+  const foundInLeftSubTree = findNode(node.left, target);
+  if (foundInLeftSubTree) {
+    return true;
+  }
 
-function size(node) {}
+  const foundInRightSubTree = findNode(node.right, target);
+  if (foundInRightSubTree) {
+    return true;
+  }
+  return false;
+}
 
-function traversal(node) {}
+function nodeToRoot(root, target) {
+  let path = [];
 
-function levelOrder(node) {}
+  function helper(node, target) {
+    if (!node) {
+      return false;
+    }
 
-function iterativeTraversal(node) {}
+    if (node.value == target) {
+      path.push(node.value);
+      return true;
+    }
 
-function findNode(node, target) {}
+    const nodeFoundInLeft = helper(node.left, target);
+    if (nodeFoundInLeft) {
+      path.push(node.value);
+      return true;
+    }
 
-let path = [];
-function nodeToRoot(node, target) {}
+    const nodeFoundInRight = helper(node.right, target);
+    if (nodeFoundInRight) {
+      path.push(node.value);
+      return true;
+    }
 
-function atKLevelDown(node, k) {}
+    return false;
+  }
+  helper(root, target);
+  return path;
+}
 
-var binaryTreePaths = function (node) {};
+function atKLevelDown(root, k) {
+  let res = [];
+  function helper(node, k) {
+    if (!node) {
+      return null;
+    }
+    helper(node.left, k - 1);
+    helper(node.right, k - 1);
+    if (k == 0) {
+      res.push(node.value);
+    }
+  }
+  helper(root, k);
+  return res;
+}
+
+function atKLevelFar(root, targetValue, k) {
+  let paths = [];
+
+  function helperNodeToRootPaths(node, targetValue) {
+    if (!node) {
+      return false;
+    }
+
+    if (node.value == targetValue) {
+      paths.push(node);
+      return true;
+    }
+
+    const leftRes = helperNodeToRootPaths(node.left, targetValue);
+    if (leftRes) {
+      paths.push(node);
+      return true;
+    }
+
+    const rightRes = helperNodeToRootPaths(node.right, targetValue);
+    if (rightRes) {
+      paths.push(node);
+      return true;
+    }
+
+    return false;
+  }
+
+  helperNodeToRootPaths(root, targetValue);
+
+  function helperKLevelDownWithBlocker(node, blockerNode, k) {
+    if (!node || node == blockerNode) {
+      return null;
+    }
+
+    if (k == 0) {
+      console.log(node.value);
+    }
+
+    helperKLevelDownWithBlocker(node.left, blockerNode, k - 1);
+    helperKLevelDownWithBlocker(node.right, blockerNode, k - 1);
+  }
+
+  for (let idx = 0; idx < paths.length; idx++) {
+    const tempNode = paths[idx];
+    let blockerNode = null;
+    if (idx > 0) {
+      blockerNode = paths[idx - 1];
+    }
+    helperKLevelDownWithBlocker(tempNode, blockerNode, k - idx);
+  }
+}
+
+function normalizeOrFlatten(root) {}
 
 function binaryTree(arr) {
   let stack = [];
@@ -87,16 +200,32 @@ function binaryTree(arr) {
     }
   }
   // display(root);
+  // console.log("Find value:", findNode(root, 344));
+  // console.log("Node-To-Root-Path: ", nodeToRoot(root, 70));
+  // console.log("K-level down: ", atKLevelDown(root, 2));
+  atKLevelFar(root, 37, 3);
 }
 
 const arr = [
   50,
   25,
   12,
+  10,
+  null,
+  null,
+  18,
   null,
   null,
   37,
   30,
+  28,
+  26,
+  null,
+  null,
+  29,
+  null,
+  null,
+  31,
   null,
   null,
   null,

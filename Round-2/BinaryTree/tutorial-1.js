@@ -1,3 +1,24 @@
+/**
+ * Tutorial-1:
+ * ================================================
+ * BINARY TREE:
+ * 1- Height of BT
+ * 2- MAX
+ * 3- SUM of all nodes
+ * 4- SIZE of BT i.e number of nodes
+ * 5- Traversal - [in, pre, post] <DFS>
+ * 6- Level-order traversal <BFS>
+ * 7- Iterative traversal
+ *
+ * ================================================
+ * BINARY TREE
+ * 1- INSERT in BST
+ * 2- REMOVE node
+ * 3- Find a node
+ * 4- MAX
+ *
+ */
+
 function Node(value, left, right) {
   this.value = value;
   this.left = left;
@@ -24,28 +45,128 @@ function display(node) {
   display(node.right);
 }
 
-function height(node) {}
+function getHeight(node) {
+  if (!node) {
+    return 0;
+  }
 
-function max(node) {}
+  const leftHeight = getHeight(node.left);
+  const rightHeight = getHeight(node.right);
+  const height = Math.max(leftHeight, rightHeight) + 1;
+  return height;
+}
 
-function sum(node) {}
+function getMax(node) {
+  if (!node) {
+    return -Infinity;
+  }
 
-function size(node) {}
+  const leftMax = getMax(node.left);
+  const rightMax = getMax(node.right);
+  const max = Math.max(node.value, leftMax, rightMax);
+  return max;
+}
 
-function traversal(node) {}
+function getSum(node) {
+  if (!node) {
+    return 0;
+  }
 
-function levelOrder(node) {}
+  const leftSum = getSum(node.left);
+  const rightSum = getSum(node.right);
+  const sum = node.value + leftSum + rightSum;
+  return sum;
+}
 
-function iterativeTraversal(node) {}
+function getSize(node) {
+  if (!node) {
+    return 0;
+  }
 
-function findNode(node, target) {}
+  const leftSize = getSize(node.left);
+  const rightSize = getSize(node.right);
+  const size = leftSize + rightSize + 1;
+  return size;
+}
 
-let path = [];
-function nodeToRoot(node, target) {}
+function getTraversals(root) {
+  let preOrder = [],
+    postOrder = [],
+    inOrder = [];
 
-function atKLevelDown(node, k) {}
+  function helper(node) {
+    if (!node) {
+      return null;
+    }
+    preOrder.push(node.value);
+    helper(node.left);
+    inOrder.push(node.value);
+    helper(node.right);
+    postOrder.push(node.value);
+  }
+  helper(root);
+  return { preOrder, inOrder, postOrder };
+}
 
-var binaryTreePaths = function (node) {};
+function getLevelOrder(node) {
+  let res = [];
+  let queue = [];
+  queue.push(node);
+
+  while (queue.length) {
+    let len = queue.length;
+    while (len) {
+      const topElement = queue.shift();
+      res.push(topElement?.value);
+
+      if (topElement?.left) {
+        queue.push(topElement.left);
+      }
+      if (topElement?.right) {
+        queue.push(topElement.right);
+      }
+      len--;
+    }
+  }
+  return res;
+}
+
+function getIterativeTraversal(node) {
+  let preOrder = [],
+    postOrder = [],
+    inOrder = [];
+
+  const pair = { node, state: 1 };
+  let stack = [pair];
+
+  while (stack.length) {
+    const element = stack[stack.length - 1];
+
+    if (element.state == 1) {
+      preOrder.push(element.node.value);
+      if (element.node.left) {
+        stack.push({
+          node: element.node.left,
+          state: 1,
+        });
+      }
+      element.state++;
+    } else if (element.state == 2) {
+      inOrder.push(element.node.value);
+      if (element.node.right) {
+        stack.push({
+          node: element.node.right,
+          state: 1,
+        });
+      }
+      element.state++;
+    } else {
+      postOrder.push(element.node.value);
+      stack.pop();
+    }
+  }
+  return { preOrder, inOrder, postOrder };
+}
 
 function binaryTree(arr) {
   let stack = [];
@@ -87,6 +208,13 @@ function binaryTree(arr) {
     }
   }
   // display(root);
+  // console.log("Height: ", getHeight(root));
+  // console.log("Max: ", getMax(root));
+  // console.log("Sum: ", getSum(root));
+  // console.log("Size: ", getSize(root));
+  // console.log("Traversals: ", getTraversals(root));
+  // console.log("Level-order: ", getLevelOrder(root));
+  console.log("Iterative traversal: ", getIterativeTraversal(root));
 }
 
 const arr = [
